@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#121416">
+  <meta name="description" content="Yaser's data analytics portfolio. Explore dashboards, thoughtful analysis, and the stories behind the numbers.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Yaser — Data & direction">
+  <meta property="og:description" content="Clear insights. Thoughtful dashboards. Better decisions.">
+  <title>Yaser — Data & direction</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./portfolio.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="Yaser, home"><span class="brand-mark" data-initials>y.</span><span class="brand-name" data-name>Yaser</span><span class="brand-divider"></span><span class="brand-role" data-role>Data Analyst</span></a>
+      <nav aria-label="Main navigation" class="desktop-nav"><a href="#work">Work</a><a href="#about">About</a><a href="#toolkit">Toolkit</a><a href="#contact">Contact <span aria-hidden="true">↗</span></a></nav>
+      <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span></span><span></span></button>
+    </div>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#work">Work</a><a href="#about">About</a><a href="#toolkit">Toolkit</a><a href="#contact">Contact ↗</a></nav>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="hero container" id="home" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="availability"><span class="status-dot"></span><span data-availability>Open to opportunities</span></div>
+        <p class="eyebrow hero-eyebrow"><span class="tiny-cross" aria-hidden="true">✳</span> A LITTLE CURIOSITY. A LOT OF DATA.</p>
+        <h1 id="hero-title">Less noise.<br>More <span class="serif-accent">insight</span><span class="orange-period">.</span></h1>
+        <p class="hero-intro" data-introduction>I turn complex data into clear insights, thoughtful dashboards, and better decisions.</p>
+        <div class="hero-actions"><a href="#work" class="button button-primary">Explore my work <span aria-hidden="true">↗</span></a><a href="#contact" class="text-link">Let’s connect <span aria-hidden="true">↗</span></a></div>
+        <div class="hero-note"><span class="note-line"></span><span>Behind every number, there’s a story.</span></div>
+      </div>
+      <div class="hero-visual" aria-label="Interactive sample analytics dashboard">
+        <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+        <div class="dashboard">
+          <div class="dashboard-topline"><span class="dashboard-logo"><span aria-hidden="true">▥</span> THE OVERVIEW</span><span class="sample-dot">SYNTHETIC DATA</span></div>
+          <div class="dashboard-heading"><div><p class="dashboard-kicker">A clearer view of what matters.</p><h2>Performance at a glance</h2></div><span class="dashboard-menu" aria-hidden="true">···</span></div>
+          <div class="dashboard-tabs" role="group" aria-label="Choose a performance metric"><button data-metric="revenue" aria-pressed="true">Revenue</button><button data-metric="orders" aria-pressed="false">Orders</button><button data-metric="conversion" aria-pressed="false">Conversion</button></div>
+          <div class="dashboard-metric" aria-live="polite" aria-atomic="true"><span id="metric-value">$84,254</span><div><span class="metric-trend" id="metric-trend">↗ 28.1%</span><span class="metric-comparison">vs. previous month</span></div></div>
+          <div class="chart-wrap" id="hero-chart"><div class="chart-tooltip" id="chart-tooltip" hidden></div><svg id="performance-chart" viewBox="0 0 500 196" role="img" aria-labelledby="chart-title chart-desc"><title id="chart-title">Sample monthly revenue</title><desc id="chart-desc">Synthetic revenue rises from January to June. Choose a metric to explore other trends.</desc><defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fa925b" stop-opacity=".24"/><stop offset="100%" stop-color="#fa925b" stop-opacity="0"/></linearGradient></defs><g class="chart-grid"><path d="M42 20H488M42 64H488M42 108H488M42 152H488"/></g><g class="chart-y" id="chart-y"></g><path id="chart-area" fill="url(#chart-fill)"/><path id="chart-line" fill="none" stroke="#fa925b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><g id="chart-points"></g><g class="chart-x"><text x="48" y="185">Jan</text><text x="134" y="185">Feb</text><text x="220" y="185">Mar</text><text x="306" y="185">Apr</text><text x="392" y="185">May</text><text x="478" y="185">Jun</text></g></svg></div>
+          <div class="dashboard-bottom"><span><i></i> Monthly performance</span><span>JAN — JUN · DEMO</span></div>
+        </div>
+        <div class="insight-note"><span class="insight-icon" aria-hidden="true">↗</span><div><strong>From numbers to next steps.</strong><span>That’s where the interesting part begins.</span></div><span class="insight-spark" aria-hidden="true">✳</span></div>
+        <span class="visual-caption">A small preview of how I think. Try the tabs above.</span>
+      </div>
+    </section>
+    <div class="container expertise-strip" aria-label="Areas of focus"><span>GOOD QUESTIONS.<br><strong>CLEARER ANSWERS.</strong></span><div><span class="strip-icon" aria-hidden="true">⌕</span> Data exploration</div><div><span class="strip-icon" aria-hidden="true">▥</span> Dashboard design</div><div><span class="strip-icon" aria-hidden="true">↗</span> Actionable insights</div></div>
+    <section class="section work-section container" id="work" aria-labelledby="work-title">
+      <div class="section-top"><p class="eyebrow"><span class="section-index">01 /</span> SELECTED WORK</p><span class="section-side-note">Small details. Bigger picture.</span></div>
+      <div class="section-heading"><h2 id="work-title">A look beneath<br>the <span class="serif-accent">surface.</span></h2><p>Questions explored. Patterns uncovered.<br>A few examples of data put to work.</p></div>
+      <div class="work-toolbar"><div class="project-filters" role="group" aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects <span>03</span></button><button data-filter="bi" aria-pressed="false">Business intelligence</button><button data-filter="python" aria-pressed="false">Python</button><button data-filter="sql" aria-pressed="false">SQL</button></div><span class="sample-label"><span></span> ILLUSTRATIVE CASE STUDIES</span></div>
+      <p class="sr-only" id="filter-status" role="status"></p>
+      <div class="projects-grid" id="projects-grid"></div>
+      <p id="projects-empty" class="projects-empty" hidden>No projects in this category yet. Try another filter.</p>
+      <p class="projects-footnote">These sample projects use synthetic data. Real projects and repositories will be added as the portfolio grows.</p>
+    </section>
+    <section class="about-section" id="about" aria-labelledby="about-title"><div class="container about-grid">
+      <div class="about-visual reveal" aria-hidden="true"><div class="about-art-top"><span>THE WAY I SEE IT</span><span>+ + +</span></div><div class="dot-matrix"></div><div class="about-art-word">data<span>→</span><br><span class="outline-word">direction</span></div><div class="about-art-bottom"><span>CURIOUS BY DEFAULT.</span><span>✳</span></div></div>
+      <div class="about-copy reveal"><p class="eyebrow"><span class="section-index">02 /</span> BEHIND THE ANALYSIS</p><h2 id="about-title">Curiosity in.<br><span class="serif-accent">Clarity out.</span></h2><p class="about-intro">Hi, I’m <span data-name>Yaser</span>.<span class="wave" aria-hidden="true"> ↗</span></p><p data-about>I enjoy connecting the dots between a good question and a useful answer. My approach brings together careful analysis, clear visuals, and a little curiosity.</p><div class="approach-list"><div><span>01</span><p><strong>Start with the question.</strong> Understand what a useful answer looks like.</p></div><div><span>02</span><p><strong>Stay close to the data.</strong> Check assumptions. Follow the evidence.</p></div><div><span>03</span><p><strong>Make it make sense.</strong> Share the story, not just the spreadsheet.</p></div></div></div>
+    </div></section>
+    <section class="section toolkit-section container" id="toolkit" aria-labelledby="toolkit-title"><div class="section-top"><p class="eyebrow"><span class="section-index">03 /</span> THE TOOLKIT</p><span class="section-side-note">The right tool for the right question.</span></div><div class="section-heading"><h2 id="toolkit-title">How the dots<br><span class="serif-accent">get connected.</span></h2><p>From the first query to the final visual.<br>The tools behind the work.</p></div><div class="skills-grid" id="skills-grid"></div></section>
+    <section class="contact-section container" id="contact" aria-labelledby="contact-title"><div class="contact-top"><p class="eyebrow"><span class="section-index">04 /</span> WHAT’S NEXT?</p><div class="availability"><span class="status-dot"></span><span data-availability>Open to opportunities</span></div></div><div class="contact-main"><div><h2 id="contact-title">Good things start<br>with a <span class="serif-accent">conversation.</span></h2><p>Have a project, a question, or an interesting dataset?<br>I’d love to hear about it.</p></div><a class="contact-circle" id="contact-cta" href="#contact" aria-label="Contact details"><span aria-hidden="true">↗</span><span>LET’S TALK</span></a></div><div class="contact-bottom"><div id="email-contact"><span class="contact-placeholder">Contact details coming soon.</span></div><div class="social-links" id="social-links"></div></div></section>
+  </main>
+  <footer class="container site-footer"><span>© <span id="current-year">2026</span> <span data-name>Yaser</span><span class="footer-dot">·</span>Built with curiosity.</span><a href="#home">Back to top <span aria-hidden="true">↑</span></a></footer>
+  <dialog id="case-study" class="case-dialog" aria-labelledby="case-title"><div class="dialog-header"><a href="#work" class="dialog-brand" tabindex="-1">THE WORK / A CLOSER LOOK</a><button id="close-case" class="close-dialog" aria-label="Close case study">✕</button></div><div id="case-content"></div></dialog>
+  <noscript><div class="noscript-note">Enable JavaScript to explore the interactive charts, projects, and toolkit.</div></noscript>
+</body>
+</html>
