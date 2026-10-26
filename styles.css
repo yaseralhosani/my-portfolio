@@ -1181,7 +1181,7 @@ button[hidden],[hidden] {
 }
 .skills-grid {
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,minmax(0,1fr));
   margin-top:36px;
   border-top:1px solid var(--line);
   border-left:1px solid var(--line);
@@ -1239,7 +1239,11 @@ button[hidden],[hidden] {
 .skill h3 {
   font-size:16px;
   letter-spacing:-.4px;
-  margin-top:4px
+  margin-top:4px;
+  line-height:1.3
+}
+.skill>div:last-child {
+  min-width:0
 }
 .skill-description {
   font-size:9px;
@@ -1592,6 +1596,9 @@ button[hidden],[hidden] {
   }
 }
 @media(max-width:1150px) {
+  .skills-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
   .container {
     width:calc(100% - 72px)
   }
@@ -2439,7 +2446,7 @@ button[hidden],[hidden] {
     font-size:9px
   }
   .skills-grid {
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
     margin-top:27px
   }
   .skill {
@@ -2933,6 +2940,14 @@ button[hidden],[hidden] {
   }
 }
 @media(max-width:520px) {
+  .skill {
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .skill-description {
+    max-width:none;
+  }
   .form-row {
     grid-template-columns:minmax(0,1fr);
     gap:0;

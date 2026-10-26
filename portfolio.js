@@ -1,22 +1,24 @@
 /* Your portfolio content lives here. No build step is required. */
 window.PORTFOLIO = {
   name: "Yaser",
-  role: "Data Analyst",
+  role: "Web & Microsoft Solutions",
   initials: "y.",
-  introduction: "I turn complex data into clear insights, thoughtful dashboards, and better decisions.",
-  about: "I enjoy connecting the dots between a good question and a useful answer. My approach brings together careful analysis, clear visuals, and a little curiosity.",
+  introduction: "I create web applications, websites, dashboards, and automations that make everyday work easier.",
+  about: "My strengths span Microsoft 365 and Office, Power BI, Power Apps, and Power Automate. I also work with WordPress, WooCommerce, and web design to make digital tools clear, practical, and easy to use.",
   email: "y4ser.alhosani@gmail.com",
   contactFormEndpoint: "", // Optional HTTPS form endpoint; empty uses FormSubmit with the email above.
   github: "https://github.com/yaseralhosani", // Your verified public GitHub profile.
   linkedin: "", // Your complete LinkedIn profile URL.
   availability: "Open to opportunities",
   skills: [
-    { name: "SQL", category: "Query & explore", description: "Joins, CTEs, window functions", icon: "database" },
-    { name: "Python", category: "Analyze & automate", description: "Pandas, NumPy, Matplotlib", icon: "code" },
-    { name: "Power BI", category: "Visualize & explain", description: "DAX, data models, dashboards", icon: "bars" },
-    { name: "Tableau", category: "Visualize & explain", description: "Visual analytics, storytelling", icon: "grid" },
-    { name: "Excel", category: "Clean & organize", description: "Power Query, pivot tables", icon: "sheet" },
-    { name: "Statistics", category: "Test & understand", description: "Exploration, trends, experiments", icon: "chart" }
+    { name: "Web Applications", category: "Build & connect", description: "Interactive tools and business apps", icon: "code" },
+    { name: "Microsoft 365 & Office", category: "Everyday productivity", description: "Office apps and connected work", icon: "office" },
+    { name: "Power BI", category: "Reporting & insights", description: "Dashboards and clear data visuals", icon: "bars" },
+    { name: "Power Apps", category: "Business applications", description: "Apps for everyday business needs", icon: "app" },
+    { name: "Power Automate", category: "Workflow automation", description: "Workflows and connected tasks", icon: "flow" },
+    { name: "WordPress", category: "Websites & content", description: "Websites and content management", icon: "web" },
+    { name: "WooCommerce", category: "Online commerce", description: "Online stores and product experiences", icon: "store" },
+    { name: "Web Design", category: "Design & experience", description: "Clear layouts and usable interfaces", icon: "design" }
   ],
   projects: [
     {

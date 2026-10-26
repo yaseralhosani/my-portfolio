@@ -1,6 +1,6 @@
-# Data analytics portfolio
+# Web & Microsoft solutions portfolio
 
-A responsive, dark portfolio for GitHub Pages. Built with HTML, CSS, and JavaScript, with interactive charts, project filters, and case studies. No packages or build step required.
+A responsive, dark portfolio covering web applications, Microsoft 365 and Office, Power BI, Power Apps, Power Automate, WordPress, WooCommerce, and web design. Built for GitHub Pages with HTML, CSS, and JavaScript, with interactive charts, project filters, and illustrative case studies. No packages or build step required.
 
 ## Make it yours
 

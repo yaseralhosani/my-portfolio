@@ -13,7 +13,13 @@
     bars: svgIcon('<rect x="4" y="13" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="18" rx="1"/>'),
     grid: svgIcon('<path d="M12 3v6m-3-3h6m-9 4v8m-4-4h8m8-4v8m-4-4h8M12 17v5m-3-2h6"/>'),
     sheet: svgIcon('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 9v12"/>'),
-    chart: svgIcon('<path d="M3 4v17h18M6 16l4-5 4 3 7-10"/><path d="M17 4h4v4"/>')
+    chart: svgIcon('<path d="M3 4v17h18M6 16l4-5 4 3 7-10"/><path d="M17 4h4v4"/>'),
+    office: svgIcon('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'),
+    app: svgIcon('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01M7 13h4v4H7zM14 13h3M14 17h3"/>'),
+    flow: svgIcon('<rect x="3" y="8" width="6" height="8" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 12h3M12 6v12M12 6h3M12 18h3"/>'),
+    web: svgIcon('<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18M5 7h14M5 17h14"/>'),
+    store: svgIcon('<path d="M4 10v10h16V10M3 10l2-7h14l2 7H3ZM8 3l-1 7M16 3l1 7M9 20v-6h6v6"/>'),
+    design: svgIcon('<path d="m4 16-1 5 5-1L20 8l-4-4L4 16Zm10-10 4 4M4 16l4 4M3 4h6M3 8h3"/>')
   };
 
   $$('[data-name]').forEach(el => el.textContent = data.name);
@@ -23,8 +29,8 @@
   $('[data-introduction]').textContent = data.introduction;
   $('[data-about]').textContent = data.about;
   $('.brand').setAttribute('aria-label', `${data.name}, home`);
-  document.title = `${data.name} — Data & direction`;
-  $('meta[name="description"]').content = `${data.name}'s data analytics portfolio. ${data.introduction}`;
+  document.title = `${data.name} — ${data.role}`;
+  $('meta[name="description"]').content = `${data.name}'s portfolio. ${data.introduction}`;
   $('meta[property="og:title"]').content = document.title;
   $('meta[property="og:description"]').content = data.introduction;
   $('#current-year').textContent = new Date().getFullYear();
