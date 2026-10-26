@@ -5,7 +5,8 @@ window.PORTFOLIO = {
   initials: "y.",
   introduction: "I turn complex data into clear insights, thoughtful dashboards, and better decisions.",
   about: "I enjoy connecting the dots between a good question and a useful answer. My approach brings together careful analysis, clear visuals, and a little curiosity.",
-  email: "", // Add your real email to enable the email links.
+  email: "y4ser.alhosani@gmail.com",
+  contactFormEndpoint: "", // Optional HTTPS form endpoint; empty uses FormSubmit with the email above.
   github: "https://github.com/yaseralhosani", // Your verified public GitHub profile.
   linkedin: "", // Your complete LinkedIn profile URL.
   availability: "Open to opportunities",

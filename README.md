@@ -6,7 +6,7 @@ A responsive, dark portfolio for GitHub Pages. Built with HTML, CSS, and JavaScr
 
 Edit **`portfolio.js`** to update your name, role, introduction, skills, contact information, social links, projects, and case studies. Project cards and their case studies use the same data, so adding work stays simple.
 
-The included projects and chart metrics are clearly marked **illustrative examples with synthetic data**. Replace them with your own work and verified results before presenting the site as your portfolio. Your public GitHub profile is connected. Add your email and LinkedIn URL when ready; the main contact button uses email first, then LinkedIn, then GitHub.
+The included projects and chart metrics are clearly marked **illustrative examples with synthetic data**. Replace them with your own work and verified results before presenting the site as your portfolio. Your public GitHub profile and email are connected. Add your LinkedIn URL when ready.
 
 For each new project, copy an existing project object in `portfolio.js`, give it a unique ID, and update its title, category, tools, summary, links, and case-study details. Keep text short, and explain the question, approach, finding, and next step. Use full `https://` URLs for external projects.
 
@@ -17,7 +17,17 @@ For each new project, copy an existing project object in `portfolio.js`, give it
 
 The hero dashboard stays an explicitly labeled synthetic-data demonstration. Its chart values live in `chartData` in `app.js`. If you change your name, also update the initial title and description in `index.html` so previews that do not run JavaScript show the right details.
 
-Change colors, spacing, and typography in **`styles.css`**. The main palette lives in the variables at the top. Page structure is in `index.html`; interactions are in `app.js`.
+Change colors, spacing, and typography in **`styles.css`**. The main palette lives in the variables at the top. Page structure is in `index.html`; portfolio interactions are in `app.js` and contact-form handling is in `contact.js`.
+
+## Contact form
+
+The form sends to **`y4ser.alhosani@gmail.com`** through [FormSubmit](https://formsubmit.co/), using the `email` value in `portfolio.js`. No account, server, or client-side API key is needed. The form shows sending, submitted, and error states. A submitted message means the service accepted it; it does not guarantee inbox delivery.
+
+**Activate delivery before sharing the form:** submit one test from the [live portfolio](https://yaseralhosani.github.io/my-portfolio/#contact), open the FormSubmit activation email in the recipient inbox, and click its confirmation link. Check spam if it does not arrive. Then send another test and confirm receipt. Only the inbox owner can complete activation. Changing the recipient requires activation again. See FormSubmit's [activation FAQ](https://formsubmit.co/help).
+
+To use an existing provider, set `contactFormEndpoint` in `portfolio.js` to its complete public **HTTPS** submission URL, for example `https://formspree.io/f/YOUR_FORM_ID`. This overrides the default FormSubmit address. Formspree uses FormData and a JSON response; custom endpoints must accept the same request and return a successful JSON response. Use a submission endpoint, never an account API key or other secret. The form preserves entered text when delivery cannot be confirmed.
+
+When changing the address or endpoint, also update the form's initial `action` in `index.html` for visitors without JavaScript. The form fields require a name, valid email, and a message of at least 10 characters.
 
 ## Preview locally
 
@@ -29,6 +39,8 @@ python3 -m http.server 4173
 
 Open [localhost:4173](http://localhost:4173). Stop the server with `Ctrl+C`. Refresh the page after editing a file.
 
+The contact form must be tested through HTTP/HTTPS. Opening `index.html` directly with a `file://` URL disables sending and provides a link to the live portfolio.
+
 ## Publish with GitHub Pages
 
 1. Create a GitHub repository and add these files, including `.github/workflows/deploy.yml`, to its `main` branch. A public repository works with GitHub Free.
@@ -38,6 +50,6 @@ Open [localhost:4173](http://localhost:4173). Stop the server with `Ctrl+C`. Ref
 
 If your default branch has another name, update `branches: [main]` in the workflow. Standard project sites use `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/`; a repository named `YOUR-USERNAME.github.io` uses the root URL. Local assets use relative paths so both work. Keep new local links relative (for example, `./assets/image.webp`) instead of starting them with `/`.
 
-The workflow copies only `index.html`, `styles.css`, `app.js`, `portfolio.js`, `assets/`, and `.nojekyll` into its deployment folder. Put new public files in `assets/`, or add them to that copy step. A failed deployment can be inspected in the repository's **Actions** tab.
+The workflow copies only `index.html`, `styles.css`, `app.js`, `contact.js`, `portfolio.js`, `assets/`, and `.nojekyll` into its deployment folder. Put new public files in `assets/`, or add them to that copy step. A failed deployment can be inspected in the repository's **Actions** tab.
 
 Publishing steps follow GitHub's [publishing-source guide](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) and [custom Pages workflow guide](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
