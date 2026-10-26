@@ -11,17 +11,23 @@
   <title>Yaser — Web &amp; Microsoft Solutions</title>
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./experience.css">
   <script src="./portfolio.js" defer></script>
   <script src="./app.js" defer></script>
   <script src="./contact.js" defer></script>
+  <script src="./motion.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="#home" aria-label="Yaser, home"><span class="brand-mark" data-initials>y.</span><span class="brand-name" data-name>Yaser</span><span class="brand-divider"></span><span class="brand-role" data-role>Web &amp; Microsoft Solutions</span></a>
-      <nav aria-label="Main navigation" class="desktop-nav"><a href="#work">Work</a><a href="#about">About</a><a href="#toolkit">Toolkit</a><a href="#contact">Contact <span aria-hidden="true">↗</span></a></nav>
-      <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span></span><span></span></button>
+      <div class="header-actions">
+        <nav aria-label="Main navigation" class="desktop-nav"><a href="#work">Work</a><a href="#about">About</a><a href="#toolkit">Toolkit</a><a href="#contact">Contact <span aria-hidden="true">↗</span></a></nav>
+        <button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false" aria-label="Pause animations" hidden><span class="motion-icon" aria-hidden="true">◉</span><span class="motion-label">Motion on</span></button>
+        <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span></span><span></span></button>
+      </div>
     </div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#work">Work</a><a href="#about">About</a><a href="#toolkit">Toolkit</a><a href="#contact">Contact ↗</a></nav>
   </header>
@@ -30,13 +36,23 @@
       <div class="hero-copy">
         <div class="availability"><span class="status-dot"></span><span data-availability>Open to opportunities</span></div>
         <p class="eyebrow hero-eyebrow"><span class="tiny-cross" aria-hidden="true">✳</span> WEB. WORKFLOWS. INSIGHTS.</p>
-        <h1 id="hero-title">Ideas into<br><span class="serif-accent">solutions</span><span class="orange-period">.</span></h1>
+        <h1 id="hero-title"><span class="hero-line"><span>Ideas into</span></span><span class="hero-line"><span class="serif-accent">solutions</span><span class="orange-period">.</span></span></h1>
         <p class="hero-intro" data-introduction>I create web applications, websites, dashboards, and automations that make everyday work easier.</p>
         <div class="hero-actions"><a href="#work" class="button button-primary">Explore my work <span aria-hidden="true">↗</span></a><a href="#contact" class="text-link">Let’s connect <span aria-hidden="true">↗</span></a></div>
         <div class="hero-note"><span class="note-line"></span><span>Web, workflows, and data working together.</span></div>
       </div>
-      <div class="hero-visual" aria-label="Interactive sample analytics dashboard">
-        <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+      <div class="hero-visual">
+        <div class="scene-edition" aria-hidden="true"><span class="scene-cross">+</span> CONNECTED IDEAS / 001</div>
+        <div id="sculpture-stage" class="sculpture-stage" aria-hidden="true">
+          <div class="sculpture-glow"></div>
+          <div class="sculpture-fallback"><i></i><i></i><i></i></div>
+          <canvas id="sculpture-canvas"></canvas>
+          <div class="sculpture-shadow"></div>
+        </div>
+        <div class="scene-coordinate" aria-hidden="true"><span>FORM / FUNCTION</span><span class="scene-hint">MOVE TO EXPLORE ↗</span></div>
+        <svg class="creative-seal" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="seal-circle" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0"/></defs><text><textPath href="#seal-circle" textLength="267">DESIGN · BUILD · CONNECT · </textPath></text><path class="seal-arrow" d="M45 75 75 45M45 45h30v30"/></svg>
+        <details class="data-lab" id="data-lab">
+          <summary><span><i aria-hidden="true"></i> ANALYTICS PLAYGROUND</span><span class="lab-action">OPEN STUDY <b aria-hidden="true">↗</b></span></summary>
         <div class="dashboard">
           <div class="dashboard-topline"><span class="dashboard-logo"><span aria-hidden="true">▥</span> THE OVERVIEW</span><span class="sample-dot">SYNTHETIC DATA</span></div>
           <div class="dashboard-heading"><div><p class="dashboard-kicker">A clearer view of what matters.</p><h2>Performance at a glance</h2></div><span class="dashboard-menu" aria-hidden="true">···</span></div>
@@ -45,11 +61,13 @@
           <div class="chart-wrap" id="hero-chart"><div class="chart-tooltip" id="chart-tooltip" hidden></div><svg id="performance-chart" viewBox="0 0 500 196" role="img" aria-labelledby="chart-title chart-desc"><title id="chart-title">Sample monthly revenue</title><desc id="chart-desc">Synthetic revenue rises from January to June. Choose a metric to explore other trends.</desc><defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fa925b" stop-opacity=".24"/><stop offset="100%" stop-color="#fa925b" stop-opacity="0"/></linearGradient></defs><g class="chart-grid"><path d="M42 20H488M42 64H488M42 108H488M42 152H488"/></g><g class="chart-y" id="chart-y"></g><path id="chart-area" fill="url(#chart-fill)"/><path id="chart-line" fill="none" stroke="#fa925b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><g id="chart-points"></g><g class="chart-x"><text x="48" y="185">Jan</text><text x="134" y="185">Feb</text><text x="220" y="185">Mar</text><text x="306" y="185">Apr</text><text x="392" y="185">May</text><text x="478" y="185">Jun</text></g></svg></div>
           <div class="dashboard-bottom"><span><i></i> Monthly performance</span><span>JAN — JUN · DEMO</span></div>
         </div>
-        <div class="insight-note"><span class="insight-icon" aria-hidden="true">↗</span><div><strong>From numbers to next steps.</strong><span>That’s where the interesting part begins.</span></div><span class="insight-spark" aria-hidden="true">✳</span></div>
-        <span class="visual-caption">A small preview of how I think. Try the tabs above.</span>
+          <p class="lab-caption">A small data study. Switch metrics to explore the story.</p>
+        </details>
       </div>
+      <a class="scroll-cue" href="#work"><span aria-hidden="true">↓</span> SCROLL TO DISCOVER</a>
+      <span class="hero-signature" aria-hidden="true">THOUGHTFUL SYSTEMS.<br>A LITTLE UNEXPECTED.</span>
     </section>
-    <div class="container expertise-strip" aria-label="Areas of focus"><span>BUILT WITH PURPOSE.<br><strong>DESIGNED TO BE USEFUL.</strong></span><div><span class="strip-icon" aria-hidden="true">⌘</span> Web applications</div><div><span class="strip-icon" aria-hidden="true">▥</span> Microsoft solutions</div><div><span class="strip-icon" aria-hidden="true">↗</span> Websites &amp; commerce</div></div>
+    <div class="kinetic-ribbon" aria-label="Web applications, Power Platform, and digital experiences"><div class="ribbon-track"><span>WEB APPLICATIONS <i aria-hidden="true">✳</i> <em>POWER PLATFORM</em> <i aria-hidden="true">✳</i> DIGITAL EXPERIENCES <i aria-hidden="true">✳</i> </span><span aria-hidden="true">WEB APPLICATIONS <i>✳</i> <em>POWER PLATFORM</em> <i>✳</i> DIGITAL EXPERIENCES <i>✳</i> </span></div></div>
     <section class="section work-section container" id="work" aria-labelledby="work-title">
       <div class="section-top"><p class="eyebrow"><span class="section-index">01 /</span> SELECTED WORK</p><span class="section-side-note">Small details. Bigger picture.</span></div>
       <div class="section-heading"><h2 id="work-title">A look beneath<br>the <span class="serif-accent">surface.</span></h2><p>Illustrative analytics case studies.<br>Real projects will be added as I share more work.</p></div>

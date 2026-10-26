@@ -17,7 +17,15 @@ For each new project, copy an existing project object in `portfolio.js`, give it
 
 The hero dashboard stays an explicitly labeled synthetic-data demonstration. Its chart values live in `chartData` in `app.js`. If you change your name, also update the initial title and description in `index.html` so previews that do not run JavaScript show the right details.
 
-Change colors, spacing, and typography in **`styles.css`**. The main palette lives in the variables at the top. Page structure is in `index.html`; portfolio interactions are in `app.js` and contact-form handling is in `contact.js`.
+Change base colors, spacing, and typography in **`styles.css`**. The creative presentation layer is in **`experience.css`**. Page structure is in `index.html`; portfolio interactions are in `app.js` and contact-form handling is in `contact.js`.
+
+## 3D and motion
+
+The hero contains an original procedural WebGL sculpture, rendered locally without a library, model download, or video. `motion.js` handles its geometry, metallic lighting, pointer response, card tilt, magnetic buttons, and scroll progress. The analytics demo is still available under **Analytics playground**.
+
+Use the **Motion on/off** control in the header to pause decorative animation. The site starts with motion reduced when the operating system requests it, and remembers a manual choice locally. Rendering pauses when the sculpture leaves the viewport or the tab is hidden; mobile rendering uses a lower pixel ratio and frame rate. A static CSS sculpture appears if WebGL is unavailable. Touch scrolling remains native.
+
+Edit `experience.css` for the visual treatment and `motion.js` for motion strength and sculpture settings. Keep the base content and the motion layer separate when adding projects. The creative direction draws on [Awwwards' interactive portfolio category](https://www.awwwards.com/websites/interactive-portfolio-examples/) while using original code and geometry.
 
 ## Contact form
 
@@ -50,6 +58,6 @@ The contact form must be tested through HTTP/HTTPS. Opening `index.html` directl
 
 If your default branch has another name, update `branches: [main]` in the workflow. Standard project sites use `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/`; a repository named `YOUR-USERNAME.github.io` uses the root URL. Local assets use relative paths so both work. Keep new local links relative (for example, `./assets/image.webp`) instead of starting them with `/`.
 
-The workflow copies only `index.html`, `styles.css`, `app.js`, `contact.js`, `portfolio.js`, `assets/`, and `.nojekyll` into its deployment folder. Put new public files in `assets/`, or add them to that copy step. A failed deployment can be inspected in the repository's **Actions** tab.
+The workflow copies only `index.html`, `styles.css`, `experience.css`, `app.js`, `contact.js`, `motion.js`, `portfolio.js`, `assets/`, and `.nojekyll` into its deployment folder. Put new public files in `assets/`, or add them to that copy step. A failed deployment can be inspected in the repository's **Actions** tab.
 
 Publishing steps follow GitHub's [publishing-source guide](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) and [custom Pages workflow guide](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
