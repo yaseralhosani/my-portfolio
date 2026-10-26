@@ -18,24 +18,32 @@
   document.body.append(cursor);
 
   function createSculpture(canvas, stage) {
-    if (!canvas || !stage) return { setMotion() {}, setPointer() {} };
+    if (!canvas || !stage) return { setMotion() {}, setPointer() {}, setForm() {}, setStructure() {} };
     let gl;
     try { gl = canvas.getContext('webgl', { alpha: true, antialias: true, premultipliedAlpha: false, powerPreference: 'low-power' }); } catch { /* The CSS sculpture remains available. */ }
-    if (!gl) { canvas.hidden = true; return { setMotion() {}, setPointer() {} }; }
+    if (!gl) { canvas.hidden = true; return { setMotion() {}, setPointer() {}, setForm() {}, setStructure() {} }; }
 
     const vertexSource = `
       attribute vec3 aPosition;
       attribute vec3 aNormal;
+      attribute vec3 aCreatePosition;
+      attribute vec3 aCreateNormal;
+      attribute vec3 aExplorePosition;
+      attribute vec3 aExploreNormal;
+      uniform vec2 uFormMix;
       uniform mat4 uModel;
       uniform mat4 uProjection;
       uniform float uFloat;
       varying vec3 vPosition;
       varying vec3 vNormal;
       void main() {
-        vec4 world = uModel * vec4(aPosition, 1.0);
+        float base = 1.0 - uFormMix.x - uFormMix.y;
+        vec3 position = aPosition * base + aCreatePosition * uFormMix.x + aExplorePosition * uFormMix.y;
+        vec3 normal = normalize(aNormal * base + aCreateNormal * uFormMix.x + aExploreNormal * uFormMix.y);
+        vec4 world = uModel * vec4(position, 1.0);
         world.y += uFloat;
         vPosition = world.xyz;
-        vNormal = mat3(uModel) * aNormal;
+        vNormal = mat3(uModel) * normal;
         gl_Position = uProjection * vec4(world.xyz - vec3(0.0, 0.0, 7.5), 1.0);
       }
     `;
@@ -43,6 +51,7 @@
       precision mediump float;
       varying vec3 vPosition;
       varying vec3 vNormal;
+      uniform float uStructure;
       void main() {
         vec3 normal = normalize(vNormal);
         vec3 view = normalize(vec3(0.0, 0.0, 7.5) - vPosition);
@@ -53,19 +62,19 @@
         float warmbox = pow(max(dot(reflection, normalize(vec3(1.6, 0.3, 0.7))), 0.0), 22.0);
         float lightstrip = 1.0 - smoothstep(0.025, 0.13, abs(reflection.y + 0.18 + 0.035 * sin(reflection.x * 5.0)));
         environment += softbox * vec3(4.0, 3.9, 3.7);
-        environment += warmbox * vec3(3.3, 1.3, 0.55);
-        environment += lightstrip * vec3(0.55, 0.64, 0.78);
+        environment += warmbox * vec3(2.0, 2.7, 0.7);
+        environment += lightstrip * vec3(0.78, 0.6, 1.15);
         float copper = smoothstep(-0.85, 1.05, vPosition.x + 0.18 * sin(vPosition.y * 2.0));
-        vec3 metal = mix(vec3(0.72, 0.79, 0.85), vec3(1.0, 0.48, 0.22), copper);
+        vec3 metal = mix(vec3(0.72, 0.79, 0.85), vec3(0.77, 0.94, 0.42), copper);
         float diffuse = max(dot(normal, normalize(vec3(-1.0, 1.5, 2.0))), 0.0) * 0.2 + 0.045;
         float fresnel = pow(1.0 - max(dot(normal, view), 0.0), 3.8);
         vec3 color = metal * (environment * (0.64 + 0.36 * fresnel) + diffuse);
-        color += fresnel * vec3(0.16, 0.065, 0.03);
+        color += fresnel * vec3(0.07, 0.12, 0.025);
         float cavity = smoothstep(0.2, 1.55, length(vPosition.xy));
         color *= mix(0.6, 1.0, cavity);
         color = 1.0 - exp(-color * 1.4);
         color = pow(color, vec3(1.0 / 2.2));
-        gl_FragColor = vec4(color, 1.0);
+        gl_FragColor = vec4(mix(color, vec3(0.72, 0.94, 0.43) * (0.6 + 0.4 * max(normal.z, 0.0)), uStructure), 1.0);
       }
     `;
 
@@ -94,7 +103,7 @@
     } catch (error) {
       console.warn('The 3D sculpture is using its CSS fallback.', error.message);
       canvas.hidden = true;
-      return { setMotion() {}, setPointer() {} };
+      return { setMotion() {}, setPointer() {}, setForm() {}, setStructure() {} };
     }
 
     const normalize = vector => {
@@ -106,11 +115,27 @@
       const radius = 1.3 + 0.38 * Math.cos(3 * t);
       return [radius * Math.cos(2 * t), radius * Math.sin(2 * t), 0.5 * Math.sin(3 * t)];
     };
+    const createCurve = t => [1.55 * Math.cos(t), 1.55 * Math.sin(t), 0.14 * Math.sin(3 * t)];
+    const exploreCurve = t => {
+      const radius = 1.3 + 0.37 * Math.cos(5 * t);
+      return [radius * Math.cos(t), radius * Math.sin(t), 0.38 * Math.sin(5 * t)];
+    };
     const segments = 360;
     const sides = 40;
     const positions = [];
     const normals = [];
     const indices = [];
+    const wireIndices = [];
+    const createPositions = [], createNormals = [], explorePositions = [], exploreNormals = [];
+    function tubePoint(path, t, angle, radius) {
+      const center = path(t);
+      const before = path(t - 0.001), after = path(t + 0.001);
+      const tangent = normalize(after.map((value, axis) => value - before[axis]));
+      const normal = normalize([tangent[1], -tangent[0], 0]);
+      const binormal = cross(tangent, normal);
+      const outward = normal.map((value, axis) => value * Math.cos(angle) + binormal[axis] * Math.sin(angle));
+      return { position: outward.map((value, axis) => center[axis] + value * radius), normal: outward };
+    }
     // A trefoil tube: the connected loop is geometry, not an image or video.
     for (let i = 0; i <= segments; i++) {
       const t = i / segments * Math.PI * 2;
@@ -127,6 +152,13 @@
           positions.push(center[axis] + value * 0.42);
           normals.push(value);
         });
+        const created = tubePoint(createCurve, t, angle, 0.49);
+        const explored = tubePoint(exploreCurve, t, angle, 0.32);
+        createPositions.push(...created.position); createNormals.push(...created.normal);
+        explorePositions.push(...explored.position); exploreNormals.push(...explored.normal);
+        const pointIndex = i * (sides + 1) + j;
+        if (i < segments && j % 4 === 0) wireIndices.push(pointIndex, pointIndex + sides + 1);
+        if (j < sides && i % 8 === 0) wireIndices.push(pointIndex, pointIndex + 1);
         if (i < segments && j < sides) {
           const a = i * (sides + 1) + j;
           const b = a + sides + 1;
@@ -145,9 +177,18 @@
     }
     attribute('aPosition', positions);
     attribute('aNormal', normals);
+    attribute('aCreatePosition', createPositions);
+    attribute('aCreateNormal', createNormals);
+    attribute('aExplorePosition', explorePositions);
+    attribute('aExploreNormal', exploreNormals);
     const indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+    const wireBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, wireBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(wireIndices), gl.STATIC_DRAW);
+    const formLocation = gl.getUniformLocation(program, 'uFormMix');
+    const structureLocation = gl.getUniformLocation(program, 'uStructure');
     const modelLocation = gl.getUniformLocation(program, 'uModel');
     const projectionLocation = gl.getUniformLocation(program, 'uProjection');
     const floatLocation = gl.getUniformLocation(program, 'uFloat');
@@ -178,6 +219,8 @@
     let pointerY = 0;
     let targetX = 0;
     let targetY = 0;
+    let formX = 0, formY = 0, targetFormX = 0, targetFormY = 0;
+    let structure = false;
     function resize() {
       const rect = stage.getBoundingClientRect();
       const ratio = Math.min(devicePixelRatio || 1, innerWidth < 700 ? 1.25 : 1.65, 1600 / Math.max(1, rect.width), 1400 / Math.max(1, rect.height));
@@ -204,11 +247,16 @@
       lastTime = time;
       pointerX += (targetX - pointerX) * 0.055;
       pointerY += (targetY - pointerY) * 0.055;
+      formX += (targetFormX - formX) * (active ? 0.085 : 1);
+      formY += (targetFormY - formY) * (active ? 0.085 : 1);
       const rotation = multiply(rotationY(0.28 + elapsed * 0.13 + pointerX * 0.45), multiply(rotationX(0.78 + pointerY * 0.3), rotationZ(0.25 + elapsed * 0.075)));
       gl.uniformMatrix4fv(modelLocation, false, rotation);
       gl.uniform1f(floatLocation, Math.sin(elapsed * 0.7) * 0.075);
+      gl.uniform2f(formLocation, formX, formY);
+      gl.uniform1f(structureLocation, structure ? 1 : 0);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, structure ? wireBuffer : indexBuffer);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-      gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+      gl.drawElements(structure ? gl.LINES : gl.TRIANGLES, structure ? wireIndices.length : indices.length, gl.UNSIGNED_SHORT, 0);
       canvas.dataset.state = active ? 'running' : 'paused';
       if (active) requestFrame();
     }
@@ -235,6 +283,8 @@
       frame = null;
       canvas.hidden = true;
       stage.classList.remove('webgl-ready');
+      canvas.dataset.state = 'fallback';
+      document.querySelector('.form-console').hidden = true;
     });
     stage.classList.add('webgl-ready');
     requestFrame();
@@ -245,11 +295,38 @@
         if (!enabled) { targetX = pointerX; targetY = pointerY; if (frame !== null) cancelAnimationFrame(frame); frame = null; }
         requestFrame();
       },
-      setPointer(x, y) { if (active) { targetX = x; targetY = y; requestFrame(); } }
+      setPointer(x, y) { if (active) { targetX = x; targetY = y; requestFrame(); } },
+      setForm(name) {
+        targetFormX = name === 'create' ? 1 : 0;
+        targetFormY = name === 'explore' ? 1 : 0;
+        canvas.dataset.form = name;
+        requestFrame();
+      },
+      setStructure(enabled) { structure = enabled; canvas.dataset.structure = enabled ? 'wireframe' : 'solid'; requestFrame(); }
     };
   }
 
   const sculpture = createSculpture(document.querySelector('#sculpture-canvas'), document.querySelector('#sculpture-stage'));
+  const formConsole = document.querySelector('.form-console');
+  if (document.querySelector('#sculpture-stage').classList.contains('webgl-ready')) formConsole.hidden = false;
+  const formNotes = {
+    connect: ['01 / CONNECTION', 'Different ideas. One connected system.'],
+    create: ['02 / POSSIBILITY', 'A clear starting point. Room to build.'],
+    explore: ['03 / DISCOVERY', 'A new perspective changes the picture.']
+  };
+  document.querySelectorAll('button[data-form]').forEach(button => button.addEventListener('click', () => {
+    document.querySelectorAll('button[data-form]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    const name = button.dataset.form;
+    document.querySelector('#form-coordinate').textContent = formNotes[name][0];
+    document.querySelector('#form-description').textContent = formNotes[name][1];
+    sculpture.setForm(name);
+  }));
+  document.querySelector('#structure-toggle').addEventListener('click', event => {
+    const button = event.currentTarget;
+    const enabled = button.getAttribute('aria-pressed') !== 'true';
+    button.setAttribute('aria-pressed', String(enabled));
+    sculpture.setStructure(enabled);
+  });
   function resetSurface(surface) {
     surface.style.setProperty('--tilt-x', '0deg');
     surface.style.setProperty('--tilt-y', '0deg');

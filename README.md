@@ -21,11 +21,11 @@ Change base colors, spacing, and typography in **`styles.css`**. The creative pr
 
 ## 3D and motion
 
-The hero contains an original procedural WebGL sculpture, rendered locally without a library, model download, or video. `motion.js` handles its geometry, metallic lighting, pointer response, card tilt, magnetic buttons, and scroll progress. The analytics demo is still available under **Analytics playground**.
+The hero contains three original procedural WebGL forms, rendered locally without a library, model download, or video. Use **Connect**, **Create**, and **Explore** to morph between a trefoil, a ring, and a sculptural bloom. **Wireframe** reveals the geometry. Form selection remains usable with motion paused; changes are immediate in that mode. `motion.js` handles its geometry, metallic lighting, pointer response, card tilt, magnetic buttons, and scroll progress. The analytics demo is still available under **Analytics playground**.
 
 Use the **Motion on/off** control in the header to pause decorative animation. The site starts with motion reduced when the operating system requests it, and remembers a manual choice locally. Rendering pauses when the sculpture leaves the viewport or the tab is hidden; mobile rendering uses a lower pixel ratio and frame rate. A static CSS sculpture appears if WebGL is unavailable. Touch scrolling remains native.
 
-Edit `experience.css` for the visual treatment and `motion.js` for motion strength and sculpture settings. Keep the base content and the motion layer separate when adding projects. The creative direction draws on [Awwwards' interactive portfolio category](https://www.awwwards.com/websites/interactive-portfolio-examples/) while using original code and geometry.
+Edit `experience.css` for the visual treatment and `motion.js` for motion strength and sculpture settings. Keep the base content and the motion layer separate when adding projects. The visual identity pairs ink and citron, oversized editorial typography, an orbital composition, alternating project displays, and a large closing wordmark. The direction is inspired by experimental portfolios featured on [Awwwards](https://www.awwwards.com/sites/self-aware); the code and geometry are original.
 
 ## Contact form
 
