@@ -96,16 +96,16 @@ body::before {
   z-index:2;
 }
 .scene-cross { color:var(--orange); font-size:20px; font-weight:300; }
-.sculpture-stage { position:absolute; inset:35px -25px 20px -45px; }
-#sculpture-canvas { display:block; width:100%; height:100%; position:relative; z-index:1; pointer-events:none; }
-.sculpture-glow {
+.signal-stage { position:absolute; inset:35px -25px 20px -45px; }
+#signal-canvas { display:block; width:100%; height:100%; position:relative; z-index:1; pointer-events:none; }
+.signal-glow {
   position:absolute;
   inset:10% 3%;
   border-radius:50%;
   background:radial-gradient(ellipse,#ff995d1a,transparent 63%);
   filter:blur(12px);
 }
-.sculpture-shadow {
+.signal-shadow {
   position:absolute;
   bottom:2%;
   left:18%;
@@ -115,8 +115,8 @@ body::before {
   background:radial-gradient(ellipse,#000c,transparent 70%);
   filter:blur(7px);
 }
-.sculpture-fallback { position:absolute; width:64%; aspect-ratio:1; top:16%; left:18%; perspective:900px; }
-.sculpture-fallback i {
+.signal-fallback { position:absolute; width:64%; aspect-ratio:1; top:16%; left:18%; perspective:900px; }
+.signal-fallback i {
   position:absolute;
   inset:0;
   border:clamp(22px,4vw,50px) solid #b0aba6;
@@ -127,9 +127,9 @@ body::before {
   box-shadow:inset 3px 3px 15px #fff4,12px 10px 35px #0005;
   transform:rotateX(54deg) rotateY(20deg) rotateZ(-35deg);
 }
-.sculpture-fallback i:nth-child(2) { transform:rotateX(5deg) rotateY(55deg) rotateZ(30deg); }
-.sculpture-fallback i:nth-child(3) { transform:rotateX(-50deg) rotateY(-35deg) rotateZ(25deg); }
-.sculpture-stage.webgl-ready .sculpture-fallback { display:none; }
+.signal-fallback i:nth-child(2) { transform:rotateX(5deg) rotateY(55deg) rotateZ(30deg); }
+.signal-fallback i:nth-child(3) { transform:rotateX(-50deg) rotateY(-35deg) rotateZ(25deg); }
+.signal-stage.signal-ready .signal-fallback { display:none; }
 .scene-coordinate {
   position:absolute;
   right:45px;
@@ -344,7 +344,7 @@ html[data-motion="reduced"] .cursor-ring { display:none; }
   .hero h1 { font-size:94px; }
   .hero-intro { max-width:320px; font-size:13px; }
   .hero-visual { right:-25px; top:0; height:640px; }
-  .sculpture-stage { inset:40px -10px 35px -25px; }
+  .signal-stage { inset:40px -10px 35px -25px; }
   .scene-edition { right:18px; font-size:7px; }
   .scene-coordinate { top:495px; right:10px; gap:12px; font-size:6px; }
   .scene-hint { font-size:5px; }
@@ -382,7 +382,7 @@ html[data-motion="reduced"] .cursor-ring { display:none; }
   .hero-actions { margin-top:26px; }
   .hero-note { font-size:8px; margin-top:24px; }
   .hero-visual { position:relative; width:100%; max-width:500px; right:auto; top:auto; height:500px; margin:12px auto 0; }
-  .sculpture-stage { inset:-10px -28px 8px; }
+  .signal-stage { inset:-10px -28px 8px; }
   .scene-edition { right:0; top:0; font-size:7px; }
   .scene-coordinate { top:392px; left:0; right:0; justify-content:space-between; font-size:6px; }
   .scene-hint { font-size:0; }
@@ -432,7 +432,7 @@ html[data-motion="reduced"] .cursor-ring { display:none; }
   .hero-visual { height:440px; margin-top:18px; }
   .scene-coordinate { top:332px; }
   .creative-seal { top:252px; right:-2px; width:72px; }
-  .sculpture-stage { inset:-5px -25px 12px; }
+  .signal-stage { inset:-5px -25px 12px; }
   .hero-intro { max-width:315px; }
   .data-lab { bottom:18px; }
   .section-heading h2 { font-size:43px; }
@@ -499,8 +499,8 @@ body { background:var(--bg); }
 .button-primary:hover { background:#e5ff98; color:#101211; }
 .hero .availability { background:#d8ff6809; border-color:#d8ff683d; }
 .hero-visual { right:-28px; width:62%; height:750px; top:0; }
-.sculpture-stage { inset:55px -30px 155px -25px; }
-.sculpture-glow { background:radial-gradient(ellipse,#d8ff6812,transparent 67%); }
+.signal-stage { inset:55px -30px 155px -25px; }
+.signal-glow { background:radial-gradient(ellipse,#d8ff6812,transparent 67%); }
 .scene-edition { right:36px; top:30px; color:#c2c7b3; }
 .scene-side { position:absolute; right:15px; top:260px; writing-mode:vertical-rl; color:#a0a694; font-size:7px; letter-spacing:2px; }
 .scene-orbit { position:absolute; inset:105px -20px 230px -15px; border:1px solid #d8ff682f; border-radius:50%; transform:rotateX(63deg) rotateZ(-28deg); pointer-events:none; }
@@ -602,7 +602,7 @@ html[data-motion=full] .scene-orbit i { animation:orbital-glow 3s ease-in-out in
   .hero { min-height:830px; }
   .hero h1 { font-size:clamp(110px,13.5vw,150px); letter-spacing:-7px; }
   .hero-visual { width:61%; right:-12px; height:735px; }
-  .sculpture-stage { inset:65px -35px 160px -50px; }
+  .signal-stage { inset:65px -35px 160px -50px; }
   .scene-coordinate { left:10px; right:12px; top:508px; }
   .form-console,.data-lab { right:10px; width:310px; }
   .form-console { bottom:72px; }
@@ -618,7 +618,7 @@ html[data-motion=full] .scene-orbit i { animation:orbital-glow 3s ease-in-out in
   .hero h1 { font-size:clamp(100px,13.1vw,125px); letter-spacing:-6px; }
   .hero-intro { max-width:300px; font-size:13px; }
   .hero-visual { height:700px; top:10px; }
-  .sculpture-stage { inset:55px -35px 170px -35px; }
+  .signal-stage { inset:55px -35px 170px -35px; }
   .form-console,.data-lab { width:270px; right:0; }
   .scene-coordinate { top:478px; right:0; }
   .scene-edition { right:0; }
@@ -639,7 +639,7 @@ html[data-motion=full] .scene-orbit i { animation:orbital-glow 3s ease-in-out in
   .hero-asterisk { font-size:.42em; margin-left:.28em; }
   .hero-intro { max-width:350px; font-size:14px; margin-top:30px; }
   .hero-visual { position:relative; top:auto; right:auto; width:100%; height:600px; margin-top:32px; }
-  .sculpture-stage { inset:15px -30px 160px; }
+  .signal-stage { inset:15px -30px 160px; }
   .scene-edition { top:0; }
   .scene-side { top:140px; font-size:6px; }
   .scene-orbit { inset:80px -10px 240px; }
@@ -681,7 +681,7 @@ html[data-motion=full] .scene-orbit i { animation:orbital-glow 3s ease-in-out in
   .hero-asterisk { margin-left:.22em; }
   .hero-intro { font-size:13px; }
   .hero-visual { height:565px; margin-top:30px; }
-  .sculpture-stage { inset:5px -25px 150px; }
+  .signal-stage { inset:5px -25px 150px; }
   .scene-coordinate { top:390px; }
   .scene-orbit { inset:65px -10px 230px; }
   .scene-side { top:125px; }
@@ -706,4 +706,10 @@ html[data-motion=full] .scene-orbit i { animation:orbital-glow 3s ease-in-out in
   .form-console-heading { margin-bottom:4px; }
 }
 
-.sculpture-fallback i { border-top-color:#e1e9dc; border-right-color:#d8ff68; border-bottom-color:#4a5f35; }
+.signal-fallback i { border-top-color:#e1e9dc; border-right-color:#d8ff68; border-bottom-color:#4a5f35; }
+
+/* The hero is now a flat generative dot field, with no 3D model or WebGL. */
+.signal-fallback { position:absolute; inset:12% 8%; width:auto; aspect-ratio:auto; border-radius:50%; background:radial-gradient(circle,#d8ff68 1.4px,transparent 1.7px) 0 0/13px 13px; mask-image:radial-gradient(ellipse,#000 25%,transparent 70%); }
+.signal-stage.signal-ready .signal-fallback { display:none; }
+.signal-glow { opacity:.5; }
+.scene-side { color:#7d8a70; }

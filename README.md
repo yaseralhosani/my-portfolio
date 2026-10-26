@@ -19,13 +19,13 @@ The hero dashboard stays an explicitly labeled synthetic-data demonstration. Its
 
 Change base colors, spacing, and typography in **`styles.css`**. The creative presentation layer is in **`experience.css`**. Page structure is in `index.html`; portfolio interactions are in `app.js` and contact-form handling is in `contact.js`.
 
-## 3D and motion
+## Generative artwork and motion
 
-The hero contains three original procedural WebGL forms, rendered locally without a library, model download, or video. Use **Connect**, **Create**, and **Explore** to morph between a trefoil, a ring, and a sculptural bloom. **Wireframe** reveals the geometry. Form selection remains usable with motion paused; changes are immediate in that mode. `motion.js` handles its geometry, metallic lighting, pointer response, card tilt, magnetic buttons, and scroll progress. The analytics demo is still available under **Analytics playground**.
+The hero uses an original flat, animated Canvas 2D dot field. **Flow**, **Grid**, and **Orbit** change its pattern; **Trace** connects the dots into flowing lines. Move the cursor through the artwork to displace nearby dots. There is no 3D model or WebGL dependency.
 
-Use the **Motion on/off** control in the header to pause decorative animation. The site starts with motion reduced when the operating system requests it, and remembers a manual choice locally. Rendering pauses when the sculpture leaves the viewport or the tab is hidden; mobile rendering uses a lower pixel ratio and frame rate. A static CSS sculpture appears if WebGL is unavailable. Touch scrolling remains native.
+`motion.js` controls the artwork, card tilt, magnetic buttons, and scroll progress. **Motion on/off** pauses decorative animation and remembers your choice. Reduced-motion preferences are respected. Pattern changes still work when paused. Rendering stops offscreen and in hidden tabs; a static dotted artwork appears if Canvas is unavailable. The analytics demo remains under **Analytics playground**.
 
-Edit `experience.css` for the visual treatment and `motion.js` for motion strength and sculpture settings. Keep the base content and the motion layer separate when adding projects. The visual identity pairs ink and citron, oversized editorial typography, an orbital composition, alternating project displays, and a large closing wordmark. The direction is inspired by experimental portfolios featured on [Awwwards](https://www.awwwards.com/sites/self-aware); the code and geometry are original.
+Edit `experience.css` for styling and `motion.js` for artwork settings. Portfolio content stays in `portfolio.js`.
 
 ## Contact form
 
