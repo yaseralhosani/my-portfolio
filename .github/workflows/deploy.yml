@@ -35,12 +35,18 @@ jobs:
           mkdir -p _site/admin
           cp admin/index.html admin/admin.css admin/admin.js admin/model.mjs admin/github.mjs _site/admin/
           python3 - <<'PYTHON'
-          import os, pathlib
+          import os, pathlib, re
           for name in ('index.html', 'admin/index.html'):
               path = pathlib.Path('_site') / name
               text = path.read_text()
               prefix = './' if name == 'index.html' else '../'
               text = text.replace(f'src="{prefix}portfolio.js"', f'src="{prefix}portfolio.js?v={os.environ["GITHUB_SHA"]}"')
+              if name == 'admin/index.html':
+                  text = re.sub(r'(\./admin\.(?:js|css))(?:\?v=[^"\s]*)?', lambda m: m[1] + '?v=' + os.environ['GITHUB_SHA'], text)
+              path.write_text(text)
+          for name in ('admin/admin.js', 'admin/github.mjs'):
+              path = pathlib.Path('_site') / name
+              text = re.sub(r"(\./(?:model|github)\.mjs)(?:\?v=[^'\s]*)?", lambda m: m[1] + '?v=' + os.environ['GITHUB_SHA'], path.read_text())
               path.write_text(text)
           PYTHON
 

@@ -50,7 +50,7 @@ function renderSkills() {
   $('#workspace').innerHTML=`<div class="list-heading"><p class="muted">Keep the tools and capabilities you want to be known for.</p><button data-action="add-skill">+ Add skill</button></div><div class="skills-editor">${data.skills.map((skill,i)=>`<section class="panel skill-edit"><div class="editor-heading"><h2>Skill ${String(i+1).padStart(2,'0')}</h2><div class="editor-actions"><button data-skill-up="${i}" ${i===0?'disabled':''} aria-label="Move skill ${i+1} up">↑</button><button data-skill-down="${i}" ${i===data.skills.length-1?'disabled':''} aria-label="Move skill ${i+1} down">↓</button><button data-remove-skill="${i}" class="danger">Remove skill</button></div></div><div class="form-grid">${['name','category','description'].map(key=>field({name:'Skill name',category:'Category',description:'Short description'}[key],`skill-${i}-${key}`,skill[key],'input',`data-skill="${i}" data-skill-key="${key}"`)).join('')}<label>Icon<select data-skill="${i}" data-skill-key="icon">${selectOptions(ICONS.map(icon=>[icon,icon]),skill.icon)}</select></label></div></section>`).join('')}</div>`;
 }
 function renumber(){data.projects.forEach((p,i)=>p.number=String(i+1).padStart(2,'0'));}
-function rememberRemoval(){undo={data:clone(data),media:clone(media)};$('#undo-button').hidden=false;}
+function rememberRemoval(kind,index){undo={kind,index,item:clone(kind==='project'?data.projects[index]:data.skills[index]),media:clone(media)};$('#undo-button').hidden=false;}
 async function confirmChange(message){$('#confirm-copy').textContent=message;$('#confirm-dialog').showModal();return new Promise(resolve=>{const done=value=>{$('#confirm-dialog').close();$('#confirm-accept').onclick=null;$('#confirm-cancel').onclick=null;resolve(value);};$('#confirm-accept').onclick=()=>done(true);$('#confirm-cancel').onclick=()=>done(false);$('#confirm-dialog').oncancel=e=>{e.preventDefault();done(false);};});}
 $('#workspace').addEventListener('input',event=>{
   const el=event.target;if(busy)return;
@@ -67,13 +67,13 @@ $('#workspace').addEventListener('click',async event=>{
   const action=button.dataset.action,p=project(),index=data.projects.indexOf(p);
   if(action==='add-project'){const next=newProject(data.projects);data.projects.push(next);selected=next.id;}
   else if(action==='duplicate'&&p){const next=clone(p);let id=p.id+'-copy';while(data.projects.some(x=>x.id===id))id+='-copy';next.id=id;next.title+=' (copy)';data.projects.splice(index+1,0,next);selected=id;}
-  else if(action==='remove-project'&&p){rememberRemoval();data.projects.splice(index,1);selected=data.projects[Math.min(index,data.projects.length-1)]?.id;notice('Project removed from the local draft. Use Undo removal to restore it.');}
+  else if(action==='remove-project'&&p){rememberRemoval('project',index);data.projects.splice(index,1);selected=data.projects[Math.min(index,data.projects.length-1)]?.id;notice('Project removed from the local draft. Use Undo removal to restore it.');}
   else if(action==='move-up'&&index>0)[data.projects[index-1],data.projects[index]]=[p,data.projects[index-1]];
   else if(action==='move-down'&&index<data.projects.length-1)[data.projects[index+1],data.projects[index]]=[p,data.projects[index+1]];
   else if(action==='add-step')p.process.push({title:'',text:''});
   else if(action==='add-skill')data.skills.push({name:'New skill',category:'',description:'',icon:'code'});
   else if(button.dataset.removeStep!==undefined)p.process.splice(Number(button.dataset.removeStep),1);
-  else if(button.dataset.removeSkill!==undefined){rememberRemoval();data.skills.splice(Number(button.dataset.removeSkill),1);}
+  else if(button.dataset.removeSkill!==undefined){rememberRemoval('skill',Number(button.dataset.removeSkill));data.skills.splice(Number(button.dataset.removeSkill),1);}
   else if(button.dataset.skillUp!==undefined){const i=Number(button.dataset.skillUp);[data.skills[i-1],data.skills[i]]=[data.skills[i],data.skills[i-1]];}
   else if(button.dataset.skillDown!==undefined){const i=Number(button.dataset.skillDown);[data.skills[i+1],data.skills[i]]=[data.skills[i],data.skills[i+1]];}
   else return;
@@ -93,7 +93,7 @@ $('#workspace').addEventListener('change',async event=>{
 });
 document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{view=button.dataset.view;render();}));
 document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>{if(!busy)button.closest('dialog').close();}));
-$('#undo-button').onclick=()=>{if(!undo)return;data=undo.data;media=undo.media;undo=null;$('#undo-button').hidden=true;changed();render();notice('Removal undone.');};
+$('#undo-button').onclick=()=>{if(!undo)return;if(undo.kind==='project'){const restored=undo.item;while(data.projects.some(p=>p.id===restored.id))restored.id+='-restored';data.projects.splice(Math.min(undo.index,data.projects.length),0,restored);selected=restored.id;renumber();}else data.skills.splice(Math.min(undo.index,data.skills.length),0,undo.item);media={...undo.media,...media};undo=null;$('#undo-button').hidden=true;changed();render();notice('Removal undone.');};
 $('#export-button').onclick=()=>{saveNow();const blob=new Blob([JSON.stringify({version:1,data,baseSha,media,dirty},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`portfolio-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 $('#import-file').onchange=async event=>{const file=event.target.files[0];if(!file)return;try{if(file.size>8*1024*1024)throw new Error('Choose a portfolio backup under 8 MB.');const backup=JSON.parse(await file.text());const errors=validate(backup.data);if(errors.length)throw new Error(errors[0]);validateMedia(backup.media || {});if(!(await confirmChange('Importing replaces the draft in this browser. Download a backup first if you want to keep the current version.')))return;data=clone(backup.data);media=validateMedia(backup.media || {});baseSha=/^[a-f0-9]{40}$/.test(backup.baseSha)?backup.baseSha:null;dirty=true;undo=null;$('#undo-button').hidden=true;selected=data.projects[0]?.id;saveNow();render();notice('Backup imported as a local draft. Review it before publishing.');}catch(error){notice(error.message,true);}finally{event.target.value='';}};
 async function applyRemote(remote){data=remote.data;baseSha=remote.sha;media={};dirty=false;undo=null;$('#undo-button').hidden=true;selected=data.projects[0]?.id;saveNow();render();}
