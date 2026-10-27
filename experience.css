@@ -713,3 +713,15 @@ html[data-motion=full] .scene-orbit i { animation:orbital-glow 3s ease-in-out in
 .signal-stage.signal-ready .signal-fallback { display:none; }
 .signal-glow { opacity:.5; }
 .scene-side { color:#7d8a70; }
+
+.web-visual { background:linear-gradient(135deg,#294034,#172b23); }
+.web-window { margin:40px auto 0; max-width:370px; border:1px solid #d8ff6844; background:#102218; border-radius:8px; overflow:hidden; box-shadow:0 35px 50px #0005; transform:rotate(-5deg); }
+.web-window-bar { display:flex; gap:5px; padding:12px; border-bottom:1px solid #d8ff6822; }
+.web-window-bar i { width:5px; height:5px; border-radius:50%; background:#d8ff6866; }
+.web-window-body { padding:25px; }
+.web-window-body>span { font-size:7px; letter-spacing:2px; color:#a4b88f; }
+.web-window-body strong { display:block; font-size:42px; line-height:.95; font-weight:500; letter-spacing:-2px; margin-block:22px; color:#d8ff68; }
+.web-window-button { font-size:7px; color:#dce8cd; border:1px solid #d8ff6844; padding:8px 13px; width:max-content; }
+.project-filters { flex-wrap:wrap; }
+.draft-preview-banner { position:relative; padding:9px 14px; text-align:center; background:#d8ff68; color:#15200c; font-size:10px; letter-spacing:1px; z-index:100; }
+@media(max-width:400px) { .web-window { margin-top:20px; } .web-window-body { padding:18px; } .web-window-body strong { font-size:34px; margin-block:15px; } }

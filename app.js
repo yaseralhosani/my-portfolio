@@ -43,10 +43,11 @@
     return `<div class="project-visual retention-visual" aria-hidden="true"><div class="preview-topline"><span>CUSTOMERS / COHORTS</span><span>02 — CUSTOMER ANALYTICS</span></div><div class="mini-heatmap"><div class="heatmap-heading"><span>The return journey</span><span>RETENTION BY MONTH</span></div><div class="heatmap-grid"><span></span>${[0, 1, 2, 3, 4, 5].map(i => `<span class="heat-col">M${i}</span>`).join('')}${heatmap}</div><div class="heatmap-legend"><span>Less</span>${[.15, .3, .5, .75, 1].map(v => `<i style="--heat:${v}"></i>`).join('')}<span>More</span></div></div></div>`;
   };
   const mobilityVisual = () => `<div class="project-visual mobility-visual" aria-hidden="true"><div class="preview-topline"><span>MOBILITY / EXPLORER</span><span>03 — DATA STORYTELLING</span></div><div class="mini-mobility"><div class="mini-eyebrow">THE RHYTHM OF A CITY</div><div class="mobility-stats"><strong>24 hours.</strong><span>COUNTLESS LITTLE STORIES.</span></div><svg class="mini-line-chart" viewBox="0 0 280 92"><g stroke="#bba08020" fill="none"><path d="M0 15H280M0 45H280M0 75H280" stroke-dasharray="2 4"/></g><path d="M0 77C15 78 20 79 30 75S47 12 60 13S80 68 95 64S120 49 140 54S159 9 177 11S193 49 211 55S244 71 280 78" fill="none" stroke="#dfae79" stroke-width="2.4"/><path d="M0 80C25 79 40 77 60 67S89 45 110 38S148 26 170 30S212 46 230 58S260 75 280 80" fill="none" stroke="#a3a089" stroke-width="2" stroke-dasharray="4 3"/><g fill="#ab9d89" font-size="6"><text x="0" y="91">00:00</text><text x="86" y="91">08:00</text><text x="176" y="91">16:00</text><text x="260" y="91">23:00</text></g></svg><div class="mobility-legend"><span>Weekday</span><span>Weekend</span></div></div></div>`;
-  const visuals = { retail: retailVisual, retention: retentionVisual, mobility: mobilityVisual };
+  const webVisual = () => `<div class="project-visual web-visual" aria-hidden="true"><div class="preview-topline"><span>WEB / DIGITAL EXPERIENCE</span><span>PROJECT PREVIEW</span></div><div class="web-window"><div class="web-window-bar"><i></i><i></i><i></i></div><div class="web-window-body"><span>BUILT WITH PURPOSE</span><strong>Ideas.<br>Made real.</strong><div class="web-window-button">EXPLORE ↗</div></div></div></div>`;
+  const visuals = { retail: retailVisual, retention: retentionVisual, mobility: mobilityVisual, web: webVisual };
   const projectVisual = project => {
     const image = String(project.image || '').trim();
-    if (image && (/^\.\/assets\//.test(image) || safeUrl(image))) {
+    if (image && (/^\.\/assets\//.test(image) || safeUrl(image) || window.PREVIEW_IMAGE_URLS?.has(image))) {
       return `<div class="project-visual project-image-visual" aria-hidden="true"><img src="${escape(image)}" alt="" loading="lazy" width="760" height="480"></div>`;
     }
     return (visuals[project.visual] || retailVisual)();
@@ -56,6 +57,13 @@
   const hasSamples = data.projects.some(project => project.isSample);
   $('.sample-label').hidden = !hasSamples;
   $('.projects-footnote').hidden = !hasSamples;
+  const filterLabels = {bi:'Business intelligence',python:'Python',sql:'SQL',web:'Web development',microsoft:'Microsoft 365',power:'Power Platform',wordpress:'WordPress',design:'Web design'};
+  const usedFilters = [...new Set(data.projects.flatMap(project=>project.filters))];
+  $('.project-filters').innerHTML = `<button data-filter="all" aria-pressed="true">All projects <span>${String(data.projects.length).padStart(2,'0')}</span></button>${usedFilters.map(key=>`<button data-filter="${escape(key)}" aria-pressed="false">${escape(filterLabels[key] || key)}</button>`).join('')}`;
+  if (data.projects.some(project=>!project.isSample)) {
+    $('.section-heading>p').textContent = hasSamples ? 'Projects and illustrative studies. Open a project to explore the work.' : 'A selection of projects. Open one to explore the work.';
+    $('.projects-footnote').textContent = 'Sample entries use synthetic data and are labeled as illustrative studies.';
+  }
   $('.project-filters [data-filter="all"] span').textContent = String(data.projects.length).padStart(2, '0');
   const emptyProjects = $('#projects-empty');
   emptyProjects.hidden = data.projects.length > 0;
@@ -94,7 +102,8 @@
     activeProjectId = id;
     const repo = safeUrl(project.repository);
     const live = safeUrl(project.liveUrl);
-    $('#case-content').innerHTML = `<div class="case-body"><p class="case-label">${escape(project.year)} / ${escape(project.category)}</p><h2 id="case-title">${escape(project.title)}</h2><p class="case-summary">${escape(project.summary)}</p><div class="case-meta"><div><span>Format</span>${escape(project.type)}</div><div><span>Tools</span>${escape(project.tags.join(' · '))}</div></div>${project.dataNote ? `<p class="case-data-note">${escape(project.dataNote)}</p>` : ''}<div class="case-visual">${projectVisual(project)}</div><section class="case-section"><h3>The question</h3><p class="case-question">${escape(project.question)}</p></section><section class="case-section"><h3>The approach</h3><ol class="case-process">${project.process.map(step => `<li><strong>${escape(step.title)}</strong><p>${escape(step.text)}</p></li>`).join('')}</ol></section><section class="case-section"><h3>What the analysis shows</h3><p>${escape(project.finding)}</p></section><section class="case-section"><h3>The next step</h3><p>${escape(project.nextStep)}</p></section>${repo || live ? `<div class="case-links">${repo ? `<a class="button button-primary" href="${escape(repo)}" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>` : ''}${live ? `<a class="button button-secondary" href="${escape(live)}" target="_blank" rel="noopener noreferrer">View live project <span aria-hidden="true">↗</span></a>` : ''}</div>` : ''}</div>`;
+    $('#case-content').innerHTML = `<div class="case-body"><p class="case-label">${escape(project.year)} / ${escape(project.category)}</p><h2 id="case-title">${escape(project.title)}</h2><p class="case-summary">${escape(project.summary)}</p><div class="case-meta"><div><span>Format</span>${escape(project.type)}</div>${project.tags.length ? `<div><span>Tools</span>${escape(project.tags.join(' · '))}</div>` : ''}</div>${project.dataNote ? `<p class="case-data-note">${escape(project.dataNote)}</p>` : ''}<div class="case-visual">${projectVisual(project)}</div><section class="case-section"><h3>The question</h3><p class="case-question">${escape(project.question)}</p></section><section class="case-section"><h3>The approach</h3><ol class="case-process">${project.process.map(step => `<li><strong>${escape(step.title)}</strong><p>${escape(step.text)}</p></li>`).join('')}</ol></section><section class="case-section"><h3>What the analysis shows</h3><p>${escape(project.finding)}</p></section><section class="case-section"><h3>The next step</h3><p>${escape(project.nextStep)}</p></section>${repo || live ? `<div class="case-links">${repo ? `<a class="button button-primary" href="${escape(repo)}" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>` : ''}${live ? `<a class="button button-secondary" href="${escape(live)}" target="_blank" rel="noopener noreferrer">View live project <span aria-hidden="true">↗</span></a>` : ''}</div>` : ''}</div>`;
+    $$('.case-section', $('#case-content')).forEach(section => { if (!section.querySelector('p,ol')?.textContent.trim()) section.remove(); });
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
     document.body.classList.add('dialog-open');
