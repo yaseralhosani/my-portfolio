@@ -3,3 +3,4 @@ _site/
 __pycache__/
 *.pyc
 *.log
+/private-admin-service/

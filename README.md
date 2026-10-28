@@ -2,30 +2,22 @@
 
 A responsive, dark portfolio covering web applications, Microsoft 365 and Office, Power BI, Power Apps, Power Automate, WordPress, WooCommerce, and web design. Built for GitHub Pages with HTML, CSS, and JavaScript, with interactive charts, project filters, and illustrative case studies. No packages or build step required.
 
-## Edit in Portfolio Studio
+## Private Portfolio Studio
 
-Open **[the admin area](https://yaseralhosani.github.io/my-portfolio/admin/)**, or choose **Admin** in the website footer.
+Open **[the private studio](https://yaser-portfolio-private-studio.yaser-alhosa-4744.chatgpt.site/admin/)**, or choose **Admin** in the public portfolio footer. The public `/admin/` page is now only a sign-in link; the editor and its APIs are hosted separately and require owner-only authentication through your ChatGPT account.
 
-- **Projects:** add, duplicate, reorder, or remove projects; edit descriptions, tools, filters, links, case studies, and sample labels. Upload JPG, PNG, or WebP thumbnails; the editor resizes them to a maximum of 1,600 pixels and saves WebP files.
-- **Profile & contact:** edit your introduction, name, role, availability, about text, email, social links, and form endpoint.
-- **Skills:** add, edit, reorder, or remove skills and choose icons.
-- **Preview:** view a private local draft using the actual portfolio layout. Contact-form sending is disabled in this preview. No draft changes appear to other visitors.
-- **Backups:** download a JSON backup including pending thumbnails, or import it on another device. Local drafts survive page reloads on the same browser and origin. Download a backup before clearing browser storage or switching devices.
+- Add, duplicate, reorder, or remove projects; edit case studies, tools, filters, links, and sample labels.
+- Upload optimized WebP thumbnails from JPG, PNG, or WebP files.
+- Edit your profile, contact information, and skills.
+- Preview drafts before publishing, download backups, and import them on another device. Drafts remain local to the browser and domain. The old admin link offers a backup download if it finds an unpublished draft from the previous editor.
 
-### Connect and publish
+After signing in, choose **Configure publishing** once. Create a fine-grained GitHub token for **yaseralhosani/my-portfolio** only, with **Contents: read and write**, and enter it in the private studio. The backend verifies it, encrypts it with AES-GCM, and stores it privately. It is never returned to the browser or included in a draft or backup. The publishing connection survives reloads. **Disconnect GitHub** deletes the stored connection; revoke the token on GitHub to invalidate it everywhere.
 
-1. In the admin header, choose **Connect GitHub**.
-2. Create a **fine-grained personal access token** on GitHub. Select only **yaseralhosani/my-portfolio** and grant **Contents: read and write**. Give it an expiry date. The connection dialog links to GitHub's token setup.
-3. Paste the token into the admin dialog. It is sent only to `api.github.com`, kept in memory, and cleared on disconnect or page close. It is never included in drafts, exports, portfolio content, or source files. Reconnect after reloading the editor.
-4. Edit your draft, choose **Preview**, then **Review & publish → Publish update**. The editor creates one commit containing the content and new images. The existing GitHub Pages workflow builds the live site. Use **View deployment** to see when the update finishes.
+Choose **Preview**, then **Review & publish → Publish update**. The backend validates the content, checks the base content SHA, and commits the update and new images together without a force push. GitHub Pages builds the public website; **View deployment** opens its progress. A stale draft cannot overwrite newer content.
 
-The admin page itself is public; GitHub enforces write authorization. Visitors can try editing their own local drafts but cannot change the live site without repository write access. There are no public visitor accounts or server database. This setup uses the portfolio's existing GitHub Pages hosting.
+The private service source is in the separate managed checkout `private-admin-service/`, excluded from this public repository. It uses Sites' owner-private access policy, server-side identity checks, cross-origin write protection, private encrypted storage, and a hosted encryption secret. Do not make that Site public or broaden its access policy. See its README for build, test, and deployment instructions. The public GitHub Pages artifact includes only `admin/login.html`, `admin/login.css`, and `admin/login.js`; the old editor scripts are not deployed.
 
-If content changed in another browser or on GitHub, publishing stops before overwriting it. Download a backup, choose **Reload published content**, and reapply your changes. The publisher preserves the existing repository tree and never force pushes. Uploaded images are added under `assets/uploads/`; removing a project does not delete previously published files from the repository.
-
-The content file is `portfolio.js`: a `window.PORTFOLIO =` assignment containing valid JSON (quoted keys, no inline comments inside the object). Keep that format when editing manually. The admin parses it as JSON and never evaluates downloaded JavaScript. `admin/model.mjs` handles validation; `admin/github.mjs` handles publishing. Run `node --test admin/cms.test.mjs` for the publication and conflict tests.
-
-The deployment stamps the content script URL with its Git commit so updates are not hidden by an older browser cache. The public site does not load the admin editor or its GitHub client.
+`portfolio.js` contains a `window.PORTFOLIO =` assignment with valid JSON. Keep quoted keys and avoid inline comments inside the data object when editing by hand. The private CMS parses the data as JSON rather than executing downloaded JavaScript. The deployment versions the content script URL so browser caches do not hide updates.
 
 ## Make it yours
 
